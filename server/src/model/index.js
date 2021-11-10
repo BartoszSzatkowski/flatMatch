@@ -1,5 +1,6 @@
 'use strict';
 const Sequelize = require('sequelize');
+const createUser = require('./user');
 
 const config = {
   host: 'localhost',
@@ -8,4 +9,6 @@ const config = {
 
 const sequelize = new Sequelize('flatMatch', 'postgres', 'password', config);
 
-module.exports = { sequelize };
+const MessageTable = createUser(sequelize, Sequelize.DataTypes);
+
+module.exports = { sequelize, MessageTable };
