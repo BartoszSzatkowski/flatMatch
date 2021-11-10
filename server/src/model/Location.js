@@ -2,10 +2,6 @@
 
 function createLocation(sequelize, DataTypes) {
   const Location = sequelize.define('Location', {
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     coords: {
       type: DataTypes.STRING,
       allowNull: false,
