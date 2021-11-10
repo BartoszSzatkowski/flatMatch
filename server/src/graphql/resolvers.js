@@ -1,11 +1,11 @@
 'use strict';
-const { MessageTable } = require('../model/index');
+const { UserTable } = require('../model/index');
 
 module.exports = {
   Query: {
     getUser: async function (_, { email }) {
-      const user = await MessageTable.findOne({ where: { email } });
-      if (user === null) throw new Error('Usernot found');
+      const user = await UserTable.findOne({ where: { email } });
+      if (user === null) throw new Error('User not found');
       else return user;
     },
   },

@@ -4,6 +4,8 @@ const client = new Client({ user: 'postgres', password: 'password' });
 (async () => {
   await client.connect();
 
+  // create flatmatch db if one does not exist credits: Ortwin Angermeier
+  // https://stackoverflow.com/questions/18389124/simulate-create-database-if-not-exists-for-postgresql
   await client.query(
     `
     DO

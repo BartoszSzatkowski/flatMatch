@@ -1,5 +1,5 @@
 'use strict';
-const { sequelize } = require('./model/index');
+const { UserTable, sequelize } = require('./model/index');
 const { ApolloServer, gql } = require('apollo-server');
 const { readFileSync } = require('fs');
 const path = require('path');

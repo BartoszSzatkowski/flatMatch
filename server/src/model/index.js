@@ -7,8 +7,8 @@ const config = {
   dialect: 'postgres',
 };
 
-const sequelize = new Sequelize('flatMatch', 'postgres', 'password', config);
+const sequelize = new Sequelize('flatmatch', 'postgres', 'password', config);
 
-const MessageTable = createUser(sequelize, Sequelize.DataTypes);
+const UserTable = createUser(sequelize, Sequelize.DataTypes);
 
-module.exports = { sequelize, MessageTable };
+module.exports = { sequelize, UserTable };
