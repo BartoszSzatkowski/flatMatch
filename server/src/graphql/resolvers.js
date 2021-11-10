@@ -11,9 +11,24 @@ module.exports = {
   },
   Mutation: {
     createUser: async function (_, { user }) {
-      const created = await db.User.create(user);
-      await created.save();
-      return created;
+      const newUser = await db.User.create(user);
+      try {
+        await newUser.save();
+        return newUser;
+      } catch (error) {
+        console.log(e);
+        return {};
+      }
+    },
+    addLocation: async function (_, { location }) {
+      const newLocation = await db.Location.create(location);
+      try {
+        await newLocation.save();
+        return true;
+      } catch (e) {
+        console.log(e);
+        return false;
+      }
     },
   },
 };

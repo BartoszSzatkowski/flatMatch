@@ -4,9 +4,11 @@ type Query {
 
 type Mutation {
   createUser(user: InputUser!): User!
+  addLocation(location: InputLocation!): Boolean!
 }
 
 type User {
+  id: Int!
   name: String!
   email: String!
   description: String!
@@ -19,4 +21,10 @@ input InputUser {
   password: String!
   description: String!
   factors: String!
+}
+
+input InputLocation {
+  UserId: Int!
+  coords: String!
+  radius: Int!
 }

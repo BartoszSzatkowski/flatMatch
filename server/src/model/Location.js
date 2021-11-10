@@ -13,7 +13,7 @@ function createLocation(sequelize, DataTypes) {
   });
 
   Location.associate = (model) => {
-    Location.belongsTo(model.User);
+    Location.belongsTo(model.User, { foreignKey: 'id' });
   };
 
   return Location;
