@@ -7,6 +7,7 @@ const createUser = require('./User');
 const config = {
   host: 'localhost',
   dialect: 'postgres',
+  logging: false,
 };
 
 const sequelize = new Sequelize('flatmatch', 'postgres', 'password', config);

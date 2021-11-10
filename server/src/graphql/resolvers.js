@@ -9,4 +9,11 @@ module.exports = {
       else return user;
     },
   },
+  Mutation: {
+    createUser: async function (_, { user }) {
+      const created = await db.User.create(user);
+      await created.save();
+      return created;
+    },
+  },
 };

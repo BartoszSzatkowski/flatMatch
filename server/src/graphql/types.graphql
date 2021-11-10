@@ -2,9 +2,21 @@ type Query {
   getUser(email: String!): User
 }
 
+type Mutation {
+  createUser(user: InputUser!): User!
+}
+
 type User {
   name: String!
   email: String!
   description: String!
-  factor: String!
+  factors: String!
+}
+
+input InputUser {
+  name: String!
+  email: String!
+  password: String!
+  description: String!
+  factors: String!
 }
