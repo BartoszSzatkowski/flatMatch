@@ -1,5 +1,5 @@
 'use strict';
-const { UserTable, sequelize } = require('./model/index');
+const db = require('./model/index');
 const { ApolloServer, gql } = require('apollo-server');
 const { readFileSync } = require('fs');
 const path = require('path');
@@ -17,6 +17,6 @@ const typeDefs = gql`
 const server = new ApolloServer({ typeDefs, resolvers });
 
 (async () => {
-  await sequelize.sync();
+  await db.sequelize.sync();
   server.listen().then(({ url }) => console.log(`server running on ${url}`));
 })();

@@ -27,6 +27,10 @@ function createUser(sequelize, DataTypes) {
       allowNull: false,
     },
   });
+
+  User.associate = (model) => {
+    User.hasOne(model.Location);
+  };
   return User;
 }
 
