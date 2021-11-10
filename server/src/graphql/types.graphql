@@ -5,6 +5,7 @@ type Query {
 type Mutation {
   createUser(user: InputUser!): User!
   addLocation(location: InputLocation!): Boolean!
+  updateLocation(id: Int!, updateLocation: InputUpdateLocation!): Boolean!
 }
 
 type User {
@@ -27,4 +28,10 @@ input InputLocation {
   UserId: Int!
   coords: String!
   radius: Int!
+}
+
+input InputUpdateLocation {
+  UserId: Int
+  coords: String
+  radius: Int
 }

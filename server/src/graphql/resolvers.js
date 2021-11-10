@@ -16,7 +16,7 @@ module.exports = {
         await newUser.save();
         return newUser;
       } catch (error) {
-        console.log(e);
+        console.log(error);
         return {};
       }
     },
@@ -25,8 +25,17 @@ module.exports = {
       try {
         await newLocation.save();
         return true;
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    },
+    updateLocation: async function (_, { id, updateLocation }) {
+      try {
+        await db.Location.update(updateLocation, { where: { id } });
+        return true;
+      } catch (error) {
+        console.log(error);
         return false;
       }
     },
