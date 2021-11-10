@@ -1,0 +1,10 @@
+type Query {
+  getUser(email: String!): User
+}
+
+type User {
+  name: String!
+  email: String!
+  description: String!
+  factor: String!
+}
