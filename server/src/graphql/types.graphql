@@ -18,9 +18,14 @@ type User {
 }
 
 type Match {
-  userA: Int!
-  userB: Int!
+  user: User!
   status: Int!
+  desc: Desc
+}
+
+type Desc {
+  text: String!
+  factors: String!
 }
 
 input InputUser {

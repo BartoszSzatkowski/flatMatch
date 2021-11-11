@@ -13,7 +13,6 @@ module.exports = {
       const myFirstPending = await db.Match.findOne({
         where: { userA: UserId, status: 0 },
       });
-      console.log(myFirstPending.dataValues.userB);
       const nextMatch = await db.Match.findOne({
         where: { userA: myFirstPending.dataValues.userB, userB: UserId },
       });
@@ -71,6 +70,17 @@ module.exports = {
         console.log(error);
         return false;
       }
+    },
+  },
+  Match: {
+    user: async (parent) => {
+      return await db.User.findOne({ where: { id: parent.userA } });
+    },
+    desc: async (parent) => {
+      const descQuery = await db.Description.findOne({
+        where: { UserId: parent.userA },
+      });
+      return descQuery.dataValues;
     },
   },
 };
