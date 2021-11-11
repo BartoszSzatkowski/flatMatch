@@ -1,5 +1,6 @@
 'use strict';
 const db = require('../model/index');
+const addPossibleMatches = require('../matchingAlg');
 
 module.exports = {
   Query: {
@@ -24,6 +25,7 @@ module.exports = {
       const newLocation = await db.Location.create(location);
       try {
         await newLocation.save();
+        addPossibleMatches(location, { created: true });
         return true;
       } catch (error) {
         console.log(error);
@@ -33,6 +35,8 @@ module.exports = {
     updateLocation: async function (_, { UserId, updateLocation }) {
       try {
         await db.Location.update(updateLocation, { where: { UserId } });
+        const location = await db.Location.findOne({ where: { UserId } });
+        addPossibleMatches(location);
         return true;
       } catch (error) {
         console.log(error);
