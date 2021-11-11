@@ -2,6 +2,10 @@
 
 function createLocation(sequelize, DataTypes) {
   const Location = sequelize.define('Location', {
+    UserId: {
+      type: DataTypes.INTEGER,
+      unique: true,
+    },
     coords: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -13,7 +17,7 @@ function createLocation(sequelize, DataTypes) {
   });
 
   Location.associate = (model) => {
-    Location.belongsTo(model.User, { foreignKey: 'id' });
+    Location.belongsTo(model.User);
   };
 
   return Location;

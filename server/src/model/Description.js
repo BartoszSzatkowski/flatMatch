@@ -2,6 +2,10 @@
 
 function createDescription(sequelize, DataTypes) {
   const Description = sequelize.define('Description', {
+    UserId: {
+      type: DataTypes.INTEGER,
+      unique: true,
+    },
     text: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -13,7 +17,7 @@ function createDescription(sequelize, DataTypes) {
   });
 
   Description.associate = (model) => {
-    Description.belongsTo(model.User, { foreignKey: 'id' });
+    Description.belongsTo(model.User);
   };
 
   return Description;
