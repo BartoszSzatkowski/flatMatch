@@ -18,18 +18,11 @@ function createUser(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    description: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    factors: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
   });
 
   User.associate = (model) => {
     User.hasOne(model.Location);
+    User.hasOne(model.Description);
   };
   return User;
 }

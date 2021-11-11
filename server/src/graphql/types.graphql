@@ -6,6 +6,8 @@ type Mutation {
   createUser(user: InputUser!): User!
   addLocation(location: InputLocation!): Boolean!
   updateLocation(id: Int!, updateLocation: InputUpdateLocation!): Boolean!
+  addDescription(desc: InputDesc!): Boolean!
+  updateDescription(updateDesc: InputUpdateDesc): Boolean!
 }
 
 type User {
@@ -34,4 +36,16 @@ input InputUpdateLocation {
   UserId: Int
   coords: String
   radius: Int
+}
+
+input InputDesc {
+  UserId: Int!
+  text: String!
+  factors: String!
+}
+
+input InputUpdateDesc {
+  UserId: Int
+  text: String
+  factors: String
 }

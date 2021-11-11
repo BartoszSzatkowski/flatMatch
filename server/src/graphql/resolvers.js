@@ -39,5 +39,24 @@ module.exports = {
         return false;
       }
     },
+    addDescription: async function (_, { desc }) {
+      const newDescription = await db.Description.create(desc);
+      try {
+        await newDescription.save();
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    },
+    updateDescription: async function (_, { id, updateDesc }) {
+      try {
+        await db.Description.update(updateDesc, { where: { id } });
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    },
   },
 };
