@@ -30,9 +30,9 @@ module.exports = {
         return false;
       }
     },
-    updateLocation: async function (_, { id, updateLocation }) {
+    updateLocation: async function (_, { UserId, updateLocation }) {
       try {
-        await db.Location.update(updateLocation, { where: { id } });
+        await db.Location.update(updateLocation, { where: { UserId } });
         return true;
       } catch (error) {
         console.log(error);
@@ -49,9 +49,9 @@ module.exports = {
         return false;
       }
     },
-    updateDescription: async function (_, { id, updateDesc }) {
+    updateDescription: async function (_, { UserId, updateDesc }) {
       try {
-        await db.Description.update(updateDesc, { where: { id } });
+        await db.Description.update(updateDesc, { where: { UserId } });
         return true;
       } catch (error) {
         console.log(error);
