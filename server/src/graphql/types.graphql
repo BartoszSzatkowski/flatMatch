@@ -14,16 +14,12 @@ type User {
   id: Int!
   name: String!
   email: String!
-  description: String!
-  factors: String!
 }
 
 input InputUser {
   name: String!
   email: String!
   password: String!
-  description: String!
-  factors: String!
 }
 
 input InputLocation {
