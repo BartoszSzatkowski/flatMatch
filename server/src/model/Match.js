@@ -18,11 +18,6 @@ function createMatch(sequelize, DataTypes) {
       },
     },
   });
-
-  Match.associate = (model) => {
-    Match.belongsTo(model.User);
-  };
-
   return Match;
 }
 
