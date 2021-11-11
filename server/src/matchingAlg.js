@@ -14,7 +14,7 @@ async function addPossibleMatches(location, { created } = { created: false }) {
   const alreadyRelated = await getAlreadyRelated(location.UserId);
   // get list of id that are possible to match
   const possibleIds = getPossibleIds(location, allLocations, alreadyRelated);
-  // INSERT POSSIBLE INTO MATCH TABLE
+  // insert found matches in match table
   insertMatches(location.UserId, possibleIds);
 }
 
