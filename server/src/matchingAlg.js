@@ -2,20 +2,32 @@
 const db = require('./model/index');
 const geoDist = require('geodist');
 
-async function addPossibleMatches(location) {
+async function addPossibleMatches(location, { created } = { created: false }) {
   // get all locations from the database
   const allLocations = await getAllLocations();
+  // delete pending matches on update of location
+  if (!created) {
+    await db.Match.destroy({ where: { userA: location.UserId, status: 0 } });
+    await db.Match.destroy({ where: { userB: location.UserId, status: 0 } });
+  }
   // get ids of users that we are already related to
-  const alreadyRelated = await db.Match.findAll({
-    where: { UserId: location.UserId },
-  });
-  // GET POSSIBLE IDS
+  const alreadyRelated = await getAlreadyRelated(location.UserId);
+  // get list of id that are possible to match
+  const possibleIds = getPossibleIds(location, allLocations, alreadyRelated);
   // INSERT POSSIBLE INTO MATCH TABLE
+  return possibleIds;
 }
 
 async function getAllLocations() {
   const queryLocations = await db.Location.findAll();
   return queryLocations.map((loc) => loc.dataValues);
+}
+
+async function getAlreadyRelated(userA) {
+  const queryRelated = await db.Match.findAll({
+    where: { userA },
+  });
+  return queryRelated.map((rel) => rel.userB);
 }
 
 function getPossibleIds(location, locations, alreadyRelated) {
