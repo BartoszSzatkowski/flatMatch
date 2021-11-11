@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^3.5.0",
+    "geodist": "^0.2.1",
     "graphql": "^15.7.2",
     "pg": "^8.7.1",
     "sequelize": "^6.9.0"
