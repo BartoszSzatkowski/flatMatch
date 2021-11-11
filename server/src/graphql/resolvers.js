@@ -9,6 +9,16 @@ module.exports = {
       if (user === null) throw new Error('User not found');
       else return user;
     },
+    getNextMatch: async function (_, { UserId }) {
+      const myFirstPending = await db.Match.findOne({
+        where: { userA: UserId, status: 0 },
+      });
+      console.log(myFirstPending.dataValues.userB);
+      const nextMatch = await db.Match.findOne({
+        where: { userA: myFirstPending.dataValues.userB, userB: UserId },
+      });
+      return nextMatch.dataValues;
+    },
   },
   Mutation: {
     createUser: async function (_, { user }) {
