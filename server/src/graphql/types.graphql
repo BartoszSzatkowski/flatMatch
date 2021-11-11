@@ -9,6 +9,7 @@ type Mutation {
   updateLocation(UserId: Int!, updateLocation: InputUpdateLocation!): Boolean!
   addDescription(desc: InputDesc!): Boolean!
   updateDescription(UserId: Int!, updateDesc: InputUpdateDesc): Boolean!
+  updateMatch(thisId: Int!, otherId: Int!, status: Int!): Boolean!
 }
 
 type User {

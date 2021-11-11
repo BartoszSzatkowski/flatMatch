@@ -71,6 +71,24 @@ module.exports = {
         return false;
       }
     },
+    updateMatch: async function (_, { thisId, otherId, status }) {
+      try {
+        await db.Match.update(
+          { status },
+          { where: { userA: thisId, userB: otherId } }
+        );
+        if (status === -1) {
+          await db.Match.update(
+            { status },
+            { where: { userA: otherId, userB: thisId } }
+          );
+        }
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    },
   },
   Match: {
     user: async (parent) => {
