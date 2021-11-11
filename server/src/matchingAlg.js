@@ -15,7 +15,7 @@ async function addPossibleMatches(location, { created } = { created: false }) {
   // get list of id that are possible to match
   const possibleIds = getPossibleIds(location, allLocations, alreadyRelated);
   // INSERT POSSIBLE INTO MATCH TABLE
-  return possibleIds;
+  insertMatches(location.UserId, possibleIds);
 }
 
 async function getAllLocations() {
@@ -53,6 +53,23 @@ function areInRange(loc1, loc2) {
   const range = Math.min(loc1.radius, loc2.radius);
   if (distance < range && loc1.UserId !== loc2.UserId) return true;
   return false;
+}
+
+async function insertMatches(thisId, possibleIds) {
+  for (const matchId of possibleIds) {
+    const matchA = await db.Match.create({
+      userA: matchId,
+      userB: thisId,
+      status: 0,
+    });
+    const matchB = await db.Match.create({
+      userA: thisId,
+      userB: matchId,
+      status: 0,
+    });
+    await matchA.save();
+    await matchB.save();
+  }
 }
 
 module.exports = addPossibleMatches;
