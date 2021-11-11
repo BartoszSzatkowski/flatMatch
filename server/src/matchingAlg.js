@@ -3,11 +3,19 @@ const db = require('./model/index');
 const geoDist = require('geodist');
 
 async function addPossibleMatches(location) {
-  const allLocations = await db.Location.findAll();
-  // GET ALL LOCATIONS
-  // GET ALREADY RELATED IDS
+  // get all locations from the database
+  const allLocations = await getAllLocations();
+  // get ids of users that we are already related to
+  const alreadyRelated = await db.Match.findAll({
+    where: { UserId: location.UserId },
+  });
   // GET POSSIBLE IDS
   // INSERT POSSIBLE INTO MATCH TABLE
+}
+
+async function getAllLocations() {
+  const queryLocations = await db.Location.findAll();
+  return queryLocations.map((loc) => loc.dataValues);
 }
 
 function getPossibleIds(location, locations, alreadyRelated) {
