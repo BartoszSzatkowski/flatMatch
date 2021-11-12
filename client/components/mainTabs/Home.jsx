@@ -6,7 +6,7 @@ import Title from '../UI/Title';
 import PanelTitle from '../UI/PanelTitle';
 import Panel from '../UI/Panel';
 
-export default function Home() {
+export default function Home({ navigation }) {
   return (
     <SafeAreaView>
       <View style={styles.body}>
@@ -18,7 +18,7 @@ export default function Home() {
           <Title>flatMatch</Title>
         </View>
         <View style={styles.feed}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Match')}>
             <Panel>
               <PanelTitle>Match</PanelTitle>
               <StyledText>
@@ -26,7 +26,7 @@ export default function Home() {
               </StyledText>
             </Panel>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Chats')}>
             <Panel>
               <PanelTitle>Chats</PanelTitle>
               <StyledText>

@@ -12,17 +12,27 @@ export default function HomeTabs() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         header: () => null,
-        tabBarIcon: () => {
+        tabBarIcon: ({ color }) => {
           let iconName;
           switch (route.name) {
             case 'Home':
-              return <AntDesign name='home' size={25} />;
+              return <AntDesign name='home' size={25} color={color} />;
             case 'Chats':
-              return <Ionicons name='chatbox-ellipses-outline' size={25} />;
+              return (
+                <Ionicons
+                  name='chatbox-ellipses-outline'
+                  size={25}
+                  color={color}
+                />
+              );
             case 'Match':
-              return <Ionicons name='md-people-outline' size={25} />;
+              return (
+                <Ionicons name='md-people-outline' size={25} color={color} />
+              );
           }
         },
+        tabBarActiveTintColor: 'blue',
+        tabBarInactiveTintColor: 'gray',
       })}
     >
       <Tab.Screen name='Home' component={Home} />
