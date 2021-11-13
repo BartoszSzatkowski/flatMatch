@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
-    height: '90%',
+    height: '80%',
     fontFamily: 'Roboto Mono',
   },
   heading: {
