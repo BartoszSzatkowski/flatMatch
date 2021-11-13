@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import InputBox from '../UI/InputBox';
 import StyledText from '../UI/StyledText';
 import Title from '../UI/Title';
 
@@ -16,22 +17,19 @@ export default function Description({ navigation }) {
         }}
       >
         <Title>Hello world!</Title>
-        <View style={styles.inputCointainer}>
-          <TextInput
-            multiline
-            style={styles.input}
-            placeholder='Write short text about yourself char(255)'
-          />
-        </View>
+        <InputBox
+          fields={['Write short text about yourself char(255)']}
+          isMulti={true}
+          inNum={false}
+        />
         <StyledText>Three important things about me:</StyledText>
-        <View style={styles.inputCointainer}>
-          <TextInput style={styles.input} placeholder='point nr0' />
-          <TextInput style={styles.input} placeholder='point nr1' />
-          <TextInput style={styles.input} placeholder='point nr2' />
-        </View>
+        <InputBox
+          fields={['point nr0', 'point nr1', 'point nr2']}
+          isMulti={false}
+          isNum={false}
+        />
         <Button
           title='NEXT >'
-          style={styles.button}
           color='black'
           onPress={() => navigation.navigate('Coords')}
         />
@@ -39,24 +37,3 @@ export default function Description({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  inputCointainer: {
-    backgroundColor: 'black',
-    paddingBottom: 10,
-  },
-  input: {
-    backgroundColor: 'white',
-    width: '97%',
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
-    borderTopColor: 'black',
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
-  },
-  button: {
-    color: 'black',
-  },
-});

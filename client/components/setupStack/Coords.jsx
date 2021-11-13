@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import MapView, { Marker } from 'react-native-maps';
 import Title from '../UI/Title';
 import StyledText from '../UI/StyledText';
+import InputBox from '../UI/InputBox';
 
 export default function Coords({ navigation }) {
   const [marker, setMarker] = useState({});
@@ -19,13 +20,7 @@ export default function Coords({ navigation }) {
       <View style={{ padding: 30 }}>
         <Title>@where?</Title>
         <StyledText>Max distance from ideal location</StyledText>
-        <View style={styles.inputCointainer}>
-          <TextInput
-            style={styles.input}
-            placeholder='(km)'
-            keyboardType='numeric'
-          />
-        </View>
+        <InputBox fields={['(km)']} isMulti={false} isNum={true} />
         <StyledText>Mark your ideal location:</StyledText>
         <View style={styles.cointainer}>
           <MapView
@@ -63,21 +58,5 @@ const styles = StyleSheet.create({
   map: {
     width: 330,
     height: 430,
-  },
-  inputCointainer: {
-    backgroundColor: 'black',
-    paddingBottom: 10,
-    marginBottom: 5,
-  },
-  input: {
-    backgroundColor: 'white',
-    width: '97%',
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingTop: 5,
-    paddingBottom: 5,
-    borderTopColor: 'black',
-    borderTopWidth: 1,
-    borderLeftWidth: 1,
   },
 });
