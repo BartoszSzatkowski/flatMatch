@@ -1,6 +1,7 @@
 type Query {
   getUser(email: String!): User
   getNextMatch(UserId: Int!): Match
+  getConversation(userA: Int!, userB: Int!): [Message]
 }
 
 type Mutation {
@@ -10,6 +11,7 @@ type Mutation {
   addDescription(desc: InputDesc!): Boolean!
   updateDescription(UserId: Int!, updateDesc: InputUpdateDesc): Boolean!
   updateMatch(thisId: Int!, otherId: Int!, status: Int!): Boolean!
+  createMessage(sender: Int!, recipient: Int!, content: String!): Boolean!
 }
 
 type User {
@@ -27,6 +29,12 @@ type Match {
 type Desc {
   text: String!
   factors: String!
+}
+
+type Message {
+  sender: Int!
+  recipient: Int!
+  content: String!
 }
 
 input InputUser {

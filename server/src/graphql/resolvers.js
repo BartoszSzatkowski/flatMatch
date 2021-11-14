@@ -18,6 +18,23 @@ module.exports = {
       });
       return nextMatch.dataValues;
     },
+    getConversation: async function (_, { userA, userB }) {
+      const firstSide = await db.Message.findAll({
+        where: { sender: userA, recipient: userB },
+      });
+      const secondSide = await db.Message.findAll({
+        where: { sender: userB, recipient: userA },
+      });
+      const conv = [
+        ...firstSide.map((msg) => msg.dataValues),
+        ...secondSide.map((msg) => msg.dataValues),
+      ];
+      return conv.sort((a, b) => {
+        return (
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+      });
+    },
   },
   Mutation: {
     createUser: async function (_, { user }) {
@@ -83,6 +100,16 @@ module.exports = {
             { where: { userA: otherId, userB: thisId } }
           );
         }
+        return true;
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    },
+    createMessage: async function (_, { sender, recipient, content }) {
+      try {
+        const newMsg = await db.Message.create({ sender, recipient, content });
+        await newMsg.save();
         return true;
       } catch (error) {
         console.log(error);
