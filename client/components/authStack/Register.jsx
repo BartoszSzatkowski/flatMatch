@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import InputBox from '../UI/InputBox';
@@ -6,14 +6,28 @@ import StyledText from '../UI/StyledText';
 import Title from '../UI/Title';
 
 export default function Register({ navigation }) {
+  const [formState, setFormState] = useState({
+    password: '',
+    email: '',
+    repeat: '',
+  });
+
+  const handleFormChange = (text, name) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: text,
+    }));
+  };
   return (
     <SafeAreaView>
       <View style={styles.body}>
         <Title>{'try {'}</Title>
         <InputBox
-          fields={['email', 'password', 'repeat password']}
+          fields={['email', 'password', 'repeat']}
           isMulit={false}
           inNum={false}
+          state={formState}
+          handleChange={handleFormChange}
         />
         <Button
           title='Register'

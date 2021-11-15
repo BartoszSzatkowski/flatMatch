@@ -21,7 +21,9 @@ export default function InputBox({
             keyboardType={isNum ? 'numeric' : 'default'}
             value={state[field]}
             onChangeText={(text) => handleChange(text, field)}
-            secureTextEntry={field === 'password' ? true : false}
+            secureTextEntry={
+              field === 'password' || field === 'repeat' ? true : false
+            }
           />
         );
       })}

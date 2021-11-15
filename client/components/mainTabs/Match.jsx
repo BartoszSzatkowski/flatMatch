@@ -23,6 +23,7 @@ export default function Match() {
     if (data?.getNextMatch) {
       setMatch(data.getNextMatch);
     }
+    return null;
   }, [data]);
 
   const genFactors = () => {
