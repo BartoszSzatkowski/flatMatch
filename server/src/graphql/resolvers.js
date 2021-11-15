@@ -18,6 +18,23 @@ module.exports = {
       });
       return nextMatch.dataValues;
     },
+    getMatched: async function (_, { UserId }) {
+      const result = [];
+      const matchedToQuery = await db.Match.findAll({
+        where: { userA: UserId, status: 1 },
+      });
+      const matchedByQuery = await db.Match.findAll({
+        where: { userB: UserId, status: 1 },
+      });
+      const matchedTo = matchedToQuery.map((match) => match.dataValues.userB);
+      const matchedBy = matchedByQuery.map((match) => match.dataValues.userA);
+      const matched = matchedBy.filter((match) => matchedTo.includes(match));
+      for (let match of matched) {
+        const user = await db.User.findOne({ where: { id: match } });
+        result.push(user);
+      }
+      return result;
+    },
     getConversation: async function (_, { userA, userB }) {
       const firstSide = await db.Message.findAll({
         where: { sender: userA, recipient: userB },
