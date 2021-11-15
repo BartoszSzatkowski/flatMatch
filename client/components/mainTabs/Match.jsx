@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,11 +12,21 @@ import makeQuery from '../../services/generateQueries';
 import Title from '../UI/Title';
 import StyledText from '../UI/StyledText';
 import { AntDesign } from '@expo/vector-icons';
+import { UserContext } from '../../UserContext';
 
 export default function Match() {
-  const { loading, error, data } = useQuery(makeQuery.getNextMatch(1));
+  const { user } = useContext(UserContext);
+  const [match, setMatch] = useState(null);
+  const { loading, error, data } = useQuery(makeQuery.getNextMatch(user.id));
+
+  useEffect(() => {
+    if (data?.getNextMatch) {
+      setMatch(data.getNextMatch);
+    }
+  }, [data]);
 
   const genFactors = () => {
+    if (!data.getNextMatch) return null;
     const factors = JSON.parse(data.getNextMatch.desc.factors);
     return (
       <FlatList
@@ -44,21 +54,28 @@ export default function Match() {
     );
   return (
     <SafeAreaView>
-      <View style={styles.body}>
-        <Title>{data.getNextMatch.user.name}</Title>
-        <View>{genFactors()}</View>
-        <View style={styles.desc}>
-          <StyledText>{data.getNextMatch.desc.text}</StyledText>
+      {match ? (
+        <View style={styles.body}>
+          <Title>{match.user.name}</Title>
+          <View>{genFactors()}</View>
+          <View style={styles.desc}>
+            <StyledText>{match.desc.text}</StyledText>
+          </View>
+          <View style={styles.buttons}>
+            <TouchableOpacity>
+              <AntDesign name='closesquareo' size={60} color='black' />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <AntDesign name='checksquareo' size={60} color='black' />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.buttons}>
-          <TouchableOpacity>
-            <AntDesign name='closesquareo' size={60} color='black' />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <AntDesign name='checksquareo' size={60} color='black' />
-          </TouchableOpacity>
+      ) : (
+        <View style={styles.body}>
+          <Title>No more people to match...</Title>
+          <StyledText>Consider widening your range.</StyledText>
         </View>
-      </View>
+      )}
     </SafeAreaView>
   );
 }

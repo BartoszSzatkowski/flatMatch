@@ -10,13 +10,18 @@ module.exports = {
       else return user;
     },
     getNextMatch: async function (_, { UserId }) {
-      const myFirstPending = await db.Match.findOne({
-        where: { userA: UserId, status: 0 },
-      });
-      const nextMatch = await db.Match.findOne({
-        where: { userA: myFirstPending.dataValues.userB, userB: UserId },
-      });
-      return nextMatch.dataValues;
+      try {
+        const myFirstPending = await db.Match.findOne({
+          where: { userA: UserId, status: 0 },
+        });
+        const nextMatch = await db.Match.findOne({
+          where: { userA: myFirstPending.dataValues.userB, userB: UserId },
+        });
+        return nextMatch.dataValues;
+      } catch (error) {
+        console.log(error);
+        return null;
+      }
     },
     getMatched: async function (_, { UserId }) {
       const result = [];

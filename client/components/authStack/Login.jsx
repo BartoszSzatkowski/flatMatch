@@ -16,7 +16,6 @@ export default function Login({ navigation }) {
   const { setUser } = useContext(UserContext);
 
   useEffect(() => {
-    console.log(data);
     if (data?.loginUser) {
       setUser(data.loginUser);
       navigation.navigate('HomeTabs');

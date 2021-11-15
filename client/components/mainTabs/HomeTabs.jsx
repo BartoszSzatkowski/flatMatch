@@ -31,8 +31,8 @@ export default function HomeTabs() {
               );
           }
         },
-        tabBarActiveTintColor: 'blue',
-        tabBarInactiveTintColor: 'gray',
+        tabBarActiveTintColor: 'black',
+        tabBarInactiveTintColor: 'lightgray',
       })}
     >
       <Tab.Screen name='Home' component={Home} />
