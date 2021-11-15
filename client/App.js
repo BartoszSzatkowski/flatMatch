@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Routes from './components/Routes';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { UserContext } from './UserContext';
 
 const cache = new InMemoryCache();
 
@@ -10,9 +11,12 @@ const client = new ApolloClient({
 });
 
 export default function App() {
+  const [user, setUser] = useState({});
   return (
-    <ApolloProvider client={client}>
-      <Routes />
-    </ApolloProvider>
+    <UserContext.Provider value={{ user, setUser }}>
+      <ApolloProvider client={client}>
+        <Routes />
+      </ApolloProvider>
+    </UserContext.Provider>
   );
 }

@@ -4,8 +4,8 @@ const addPossibleMatches = require('../matchingAlg');
 
 module.exports = {
   Query: {
-    getUser: async function (_, { email }) {
-      const user = await db.User.findOne({ where: { email } });
+    loginUser: async function (_, { email, password }) {
+      const user = await db.User.findOne({ where: { email, password } });
       if (user === null) throw new Error('User not found');
       else return user;
     },

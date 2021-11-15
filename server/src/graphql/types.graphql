@@ -1,5 +1,5 @@
 type Query {
-  getUser(email: String!): User
+  loginUser(email: String!, password: String!): User
   getNextMatch(UserId: Int!): Match
   getMatched(UserId: Int!): [User]!
   getConversation(userA: Int!, userB: Int!): [Message]
