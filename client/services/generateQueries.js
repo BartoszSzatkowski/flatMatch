@@ -15,18 +15,18 @@ export default {
 
   getNextMatch: (id) => {
     return gql`
-      query Query {
-          getNextMatch(UserId: ${id}) {
-              user {
-                  id
-                  name
-              }
-              status
-              desc {
-                  text
-                  factors
-              }
+      query Query($UserId: Int!) {
+        getNextMatch(UserId: $UserId) {
+          user {
+            id
+            name
           }
+          status
+          desc {
+            text
+            factors
+          }
+        }
       }
     `;
   },
@@ -51,6 +51,14 @@ export default {
           recipient
           content
         }
+      }
+    `;
+  },
+
+  updateMatch: () => {
+    return gql`
+      mutation Mutation($thisId: Int!, $otherId: Int!, $status: Int!) {
+        updateMatch(thisId: $thisId, otherId: $otherId, status: $status)
       }
     `;
   },

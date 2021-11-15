@@ -16,6 +16,7 @@ export default function Chats({ navigation }) {
     if (data) {
       setChats(data.getMatched);
     }
+    return null;
   }, [data]);
 
   const genContacts = () => {

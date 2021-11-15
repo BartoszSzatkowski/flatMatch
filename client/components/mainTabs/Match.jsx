@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import makeQuery from '../../services/generateQueries';
 import Title from '../UI/Title';
 import StyledText from '../UI/StyledText';
@@ -17,17 +17,23 @@ import { UserContext } from '../../UserContext';
 export default function Match() {
   const { user } = useContext(UserContext);
   const [match, setMatch] = useState(null);
-  const { loading, error, data } = useQuery(makeQuery.getNextMatch(user.id));
+  const [getNextMatch, { loading, error, data, refetch }] = useLazyQuery(
+    makeQuery.getNextMatch()
+  );
+  const [updateMatch, { loadingUpdate, errorUpdate, dataUpdate }] = useMutation(
+    makeQuery.updateMatch()
+  );
 
   useEffect(() => {
-    if (data?.getNextMatch) {
-      setMatch(data.getNextMatch);
-    }
+    console.log('Use Effect Ran');
+    getNextMatch({ variables: { UserId: user.id } });
+    setMatch(data?.getNextMatch ? data.getNextMatch : null);
+    console.log(match);
     return null;
   }, [data]);
 
   const genFactors = () => {
-    if (!data.getNextMatch) return null;
+    if (!data?.getNextMatch) return null;
     const factors = JSON.parse(data.getNextMatch.desc.factors);
     return (
       <FlatList
@@ -37,6 +43,13 @@ export default function Match() {
         renderItem={({ item }) => <StyledText>{' => ' + item.key}</StyledText>}
       />
     );
+  };
+
+  const handleDecision = async (status) => {
+    await updateMatch({
+      variables: { thisId: user.id, otherId: match.user.id, status },
+    });
+    refetch({ UserId: user.id });
   };
 
   if (loading)
@@ -63,10 +76,10 @@ export default function Match() {
             <StyledText>{match.desc.text}</StyledText>
           </View>
           <View style={styles.buttons}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleDecision(-1)}>
               <AntDesign name='closesquareo' size={60} color='black' />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleDecision(1)}>
               <AntDesign name='checksquareo' size={60} color='black' />
             </TouchableOpacity>
           </View>
@@ -83,6 +96,7 @@ export default function Match() {
 
 const styles = StyleSheet.create({
   body: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-around',
