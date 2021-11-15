@@ -18,4 +18,16 @@ export default {
         }
         `;
   },
+
+  getConversation: (userA, userB) => {
+    return gql`
+      query Query {
+        getConversation(userA: ${userA},userB: ${userB}) {
+          sender
+          recipient
+          content
+        }
+      }
+    `;
+  },
 };
