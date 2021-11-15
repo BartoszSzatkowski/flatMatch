@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client';
 import makeQuery from '../../services/generateQueries';
 import { UserContext } from '../../UserContext';
 import Contact from '../UI/Contact';
+import Title from '../UI/Title';
 
 export default function Chats() {
   const { user } = useContext(UserContext);
@@ -19,7 +20,7 @@ export default function Chats() {
 
   const genContacts = () => {
     return chats.map((contact) => {
-      return <Contact key={contact.id} />;
+      return <Contact key={contact.id} user={contact} />;
     });
   };
 
@@ -38,6 +39,7 @@ export default function Chats() {
 
   return (
     <SafeAreaView>
+      <Title>Chats</Title>
       <View>{genContacts()}</View>
     </SafeAreaView>
   );
