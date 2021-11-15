@@ -12,8 +12,11 @@ const client = new ApolloClient({
 
 export default function App() {
   const [user, setUser] = useState({});
+  const [conversation, setConversation] = useState({});
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider
+      value={{ user, setUser, conversation, setConversation }}
+    >
       <ApolloProvider client={client}>
         <Routes />
       </ApolloProvider>

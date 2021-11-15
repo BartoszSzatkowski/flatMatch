@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { UserContext } from '../../UserContext';
 import StyledText from './StyledText';
 
 export default function Contact({ user, navigation }) {
+  const { setConversation } = useContext(UserContext);
   return (
-    <TouchableOpacity onPress={() => navigation.navigate('Conversation')}>
+    <TouchableOpacity
+      onPress={() => {
+        setConversation(user);
+        navigation.navigate('Conversation');
+      }}
+    >
       <View style={styles.tile}>
         <View style={styles.name}>
           <StyledText size={25}>{user.name}</StyledText>
