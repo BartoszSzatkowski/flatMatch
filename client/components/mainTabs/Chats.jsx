@@ -38,11 +38,18 @@ export default function Chats() {
     );
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ padding: 30 }}>
       <Title>Chats</Title>
-      <View>{genContacts()}</View>
+      <View style={styles.container}>{genContacts()}</View>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    borderTopWidth: 1,
+    borderLeftWidth: 10,
+    borderRightWidth: 1,
+    borderColor: 'black',
+  },
+});

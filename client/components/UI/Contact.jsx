@@ -7,7 +7,6 @@ export default function Contact({ user }) {
     <TouchableOpacity>
       <View style={styles.tile}>
         <View style={styles.name}>
-          <View style={styles.block} />
           <StyledText size={25}>{user.name}</StyledText>
         </View>
         <StyledText>{user.email}</StyledText>
@@ -20,17 +19,15 @@ const styles = StyleSheet.create({
   tile: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 8,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: 'black',
   },
   name: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  block: {
-    height: 30,
-    width: 8,
-    backgroundColor: 'black',
   },
 });
