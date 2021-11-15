@@ -1,29 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet, Text, View } from 'react-native';
 import { useQuery } from '@apollo/client';
 import makeQuery from '../../services/generateQueries';
+import { UserContext } from '../../UserContext';
+import Contact from '../UI/Contact';
 
 export default function Chats() {
-  const { loading, error, data } = useQuery(makeQuery.getConversation(1, 4));
-  const [messages, setMessages] = useState([]);
+  const { user } = useContext(UserContext);
+  const { loading, error, data } = useQuery(makeQuery.getChats(user.id));
+  const [chats, setChats] = useState([]);
 
   useEffect(() => {
-    (async () => {
-      console.log('Hol up', data.getConversation);
-      if (data.getConversation) {
-        setMessages(data.getConversation);
-      }
-    })();
+    if (data) {
+      setChats(data.getMatched);
+    }
   }, [data]);
 
-  genMessages = () => {
-    return messages.map((msg) => {
-      return (
-        <View>
-          <Text>{msg.content}</Text>
-        </View>
-      );
+  const genContacts = () => {
+    return chats.map((contact) => {
+      return <Contact key={contact.id} />;
     });
   };
 
@@ -42,7 +38,7 @@ export default function Chats() {
 
   return (
     <SafeAreaView>
-      <View>{genMessages()}</View>
+      <View>{genContacts()}</View>
     </SafeAreaView>
   );
 }
