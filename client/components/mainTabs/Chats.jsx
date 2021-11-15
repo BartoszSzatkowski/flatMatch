@@ -7,7 +7,7 @@ import { UserContext } from '../../UserContext';
 import Contact from '../UI/Contact';
 import Title from '../UI/Title';
 
-export default function Chats() {
+export default function Chats({ navigation }) {
   const { user } = useContext(UserContext);
   const { loading, error, data } = useQuery(makeQuery.getChats(user.id));
   const [chats, setChats] = useState([]);
@@ -20,7 +20,9 @@ export default function Chats() {
 
   const genContacts = () => {
     return chats.map((contact) => {
-      return <Contact key={contact.id} user={contact} />;
+      return (
+        <Contact key={contact.id} user={contact} navigation={navigation} />
+      );
     });
   };
 

@@ -2,9 +2,9 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import StyledText from './StyledText';
 
-export default function Contact({ user }) {
+export default function Contact({ user, navigation }) {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => navigation.navigate('Conversation')}>
       <View style={styles.tile}>
         <View style={styles.name}>
           <StyledText size={25}>{user.name}</StyledText>
