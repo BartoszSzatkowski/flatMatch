@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { UserContext } from '../../UserContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,15 +7,52 @@ import StyledText from '../UI/StyledText';
 import InputBox from '../UI/InputBox';
 import { FontAwesome } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import ChatBubble from '../UI/ChatBubble';
+import { useQuery, useMutation } from '@apollo/client';
+import makeQuery from '../../services/generateQueries';
 
 export default function Conversation() {
-  const { conversation } = useContext(UserContext);
-  const [message, setMessage] = useState('');
+  const { user, conversation } = useContext(UserContext);
+  const [inputValue, setInputValues] = useState({ message: '' });
+  const { loading, error, data, refetch } = useQuery(
+    makeQuery.getConversation(user.id, conversation.id)
+  );
+  const [createMessage] = useMutation(makeQuery.createMessage());
 
   const handleFormChange = (text, name) => {
-    setMessage(() => ({
+    setInputValues(() => ({
       [name]: text,
     }));
+  };
+
+  const handleSendMessage = async () => {
+    console.log(user.id, conversation.id, inputValue.message);
+    await createMessage({
+      variables: {
+        sender: user.id,
+        recipient: conversation.id,
+        content: inputValue.message,
+      },
+    });
+    setInputValues({ message: '' });
+    refetch();
+  };
+
+  const renderConversation = () => {
+    if (error)
+      return (
+        <ChatBubble isThisSide={true}>
+          Error loading conversation, try reloading...
+        </ChatBubble>
+      );
+    if (loading) return <ChatBubble isThisSide={true}>Loading...</ChatBubble>;
+    return data.getConversation.map((msg) => {
+      return (
+        <ChatBubble isThisSide={msg.sender === user.id ? true : false}>
+          {msg.content}
+        </ChatBubble>
+      );
+    });
   };
 
   return (
@@ -26,38 +63,7 @@ export default function Conversation() {
           <StyledText>{conversation.email}</StyledText>
         </View>
         <ScrollView style={styles.feed}>
-          <View style={styles.feedWrap}>
-            <Text>Banana</Text>
-            <Text>Banana1</Text>
-            <Text>Banana3</Text>
-            <Text>Banana4</Text>
-            <Text>Banana5</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-            <Text>Banana</Text>
-          </View>
+          <View style={styles.feedWrap}>{renderConversation()}</View>
         </ScrollView>
         <View style={styles.input}>
           <View style={styles.inputWrap}>
@@ -65,11 +71,11 @@ export default function Conversation() {
               fields={['message']}
               isMulti={false}
               isNum={false}
-              state={message}
+              state={inputValue}
               handleChange={handleFormChange}
             />
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={handleSendMessage}>
             <FontAwesome name='send-o' size={30} />
           </TouchableOpacity>
         </View>
@@ -86,13 +92,16 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   feed: {
+    display: 'flex',
+    flexDirection: 'column-reverse',
     height: '80%',
-    borderWidth: 1,
-    borderColor: 'black',
+    backgroundColor: 'black',
   },
   feedWrap: {
     display: 'flex',
-    flexDirection: 'column-reverse',
+    flexDirection: 'column',
+    backgroundColor: 'black',
+    padding: 10,
   },
   input: {
     display: 'flex',

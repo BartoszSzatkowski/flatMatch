@@ -62,4 +62,12 @@ export default {
       }
     `;
   },
+
+  createMessage: () => {
+    return gql`
+      mutation Mutation($sender: Int!, $recipient: Int!, $content: String!) {
+        createMessage(sender: $sender, recipient: $recipient, content: $content)
+      }
+    `;
+  },
 };

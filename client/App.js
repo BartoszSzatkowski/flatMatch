@@ -6,7 +6,7 @@ import { UserContext } from './UserContext';
 const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  uri: 'http://10.197.41.205:4000/',
+  uri: 'http://10.197.42.59:4000/',
   cache,
 });
 
