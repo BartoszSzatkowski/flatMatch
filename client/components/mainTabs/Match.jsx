@@ -13,10 +13,12 @@ import Title from '../UI/Title';
 import StyledText from '../UI/StyledText';
 import { AntDesign } from '@expo/vector-icons';
 import { UserContext } from '../../UserContext';
+import Modal from '../UI/Modal';
 
-export default function Match() {
+export default function Match({ navigation }) {
   const { user } = useContext(UserContext);
   const [match, setMatch] = useState(null);
+  const [isMatched, setIsMatched] = useState(false);
   const [getNextMatch, { loading, error, data, refetch }] = useLazyQuery(
     makeQuery.getNextMatch()
   );
@@ -25,10 +27,8 @@ export default function Match() {
   );
 
   useEffect(() => {
-    console.log('Use Effect Ran');
     getNextMatch({ variables: { UserId: user.id } });
     setMatch(data?.getNextMatch ? data.getNextMatch : null);
-    console.log(match);
     return null;
   }, [data]);
 
@@ -49,7 +49,11 @@ export default function Match() {
     await updateMatch({
       variables: { thisId: user.id, otherId: match.user.id, status },
     });
-    refetch({ UserId: user.id });
+    if (match.status === 1) {
+      setIsMatched(true);
+    } else {
+      refetch({ UserId: user.id });
+    }
   };
 
   if (loading)
@@ -70,19 +74,31 @@ export default function Match() {
     <SafeAreaView>
       {match ? (
         <View style={styles.body}>
-          <Title>{match.user.name}</Title>
-          <View>{genFactors()}</View>
-          <View style={styles.desc}>
-            <StyledText>{match.desc.text}</StyledText>
-          </View>
-          <View style={styles.buttons}>
-            <TouchableOpacity onPress={() => handleDecision(-1)}>
-              <AntDesign name='closesquareo' size={60} color='black' />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleDecision(1)}>
-              <AntDesign name='checksquareo' size={60} color='black' />
-            </TouchableOpacity>
-          </View>
+          {isMatched ? (
+            <View style={styles.modal}>
+              <Modal
+                showModal={setIsMatched}
+                getNew={refetch}
+                navigation={navigation}
+              />
+            </View>
+          ) : (
+            <>
+              <Title>{match.user.name}</Title>
+              <View>{genFactors()}</View>
+              <View style={styles.desc}>
+                <StyledText>{match.desc.text}</StyledText>
+              </View>
+              <View style={styles.buttons}>
+                <TouchableOpacity onPress={() => handleDecision(-1)}>
+                  <AntDesign name='closesquareo' size={60} color='black' />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleDecision(1)}>
+                  <AntDesign name='checksquareo' size={60} color='black' />
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
         </View>
       ) : (
         <View style={styles.body}>
@@ -110,5 +126,15 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  modal: {
+    position: 'absolute',
+    width: 350,
+    height: 550,
+    backgroundColor: 'white',
+    borderWidth: 2,
+    borderColor: 'black',
+    top: 60,
+    left: 20,
   },
 });
