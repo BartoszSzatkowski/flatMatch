@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Button, TextInput, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import InputBox from '../UI/InputBox';
@@ -6,6 +6,20 @@ import StyledText from '../UI/StyledText';
 import Title from '../UI/Title';
 
 export default function Description({ navigation }) {
+  const [formState, setFormState] = useState({
+    description: '',
+    point0: '',
+    point1: '',
+    point2: '',
+  });
+
+  const handleFormChange = (text, name) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: text,
+    }));
+  };
+
   return (
     <SafeAreaView>
       <View
@@ -18,15 +32,19 @@ export default function Description({ navigation }) {
       >
         <Title>Hello world!</Title>
         <InputBox
-          fields={['Write short text about yourself char(255)']}
+          fields={['description']}
           isMulti={true}
           inNum={false}
+          state={formState}
+          handleChange={handleFormChange}
         />
         <StyledText>Three important things about me:</StyledText>
         <InputBox
-          fields={['point nr0', 'point nr1', 'point nr2']}
+          fields={['point0', 'point1', 'point2']}
           isMulti={false}
           isNum={false}
+          state={formState}
+          handleChange={handleFormChange}
         />
         <Button
           title='NEXT >'

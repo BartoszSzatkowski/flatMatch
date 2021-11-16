@@ -13,6 +13,18 @@ export default {
     `;
   },
 
+  createUser: () => {
+    return gql`
+      mutation Mutation($user: InputUser!) {
+        createUser(user: $user) {
+          id
+          name
+          email
+        }
+      }
+    `;
+  },
+
   getNextMatch: (id) => {
     return gql`
       query Query($UserId: Int!) {

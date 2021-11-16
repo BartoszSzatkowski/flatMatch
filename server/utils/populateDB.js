@@ -19,7 +19,7 @@ const descriptions = [
   {
     UserId: 2,
     text: 'Proin erat orci, lacinia hendrerit dapibus a, faucibus ac purus. Ut bibendum pellentesque ligula, vel volutpat nunc.',
-    factors: '["Working night shit", "Smoker", "Like to party"]',
+    factors: '["Working night shift", "Smoker", "Like to party"]',
   },
   {
     UserId: 3,
