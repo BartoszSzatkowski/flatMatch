@@ -17,3 +17,6 @@
 ```
 $ npm run populatedb
 ```
+
+- Now install expo cli and expo app/android studio following this tutorial:
+  [Expo Installation Tutorial](https://docs.expo.dev/get-started/installation/)

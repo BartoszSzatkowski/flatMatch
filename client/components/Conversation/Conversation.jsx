@@ -26,7 +26,6 @@ export default function Conversation() {
   };
 
   const handleSendMessage = async () => {
-    console.log(user.id, conversation.id, inputValue.message);
     await createMessage({
       variables: {
         sender: user.id,
@@ -62,8 +61,10 @@ export default function Conversation() {
           <Title>{conversation.name}</Title>
           <StyledText>{conversation.email}</StyledText>
         </View>
-        <ScrollView style={styles.feed}>
-          <View style={styles.feedWrap}>{renderConversation()}</View>
+        <ScrollView style={{ height: '80%', backgroundColor: 'black' }}>
+          <View style={styles.feed}>
+            <View style={styles.feedWrap}>{renderConversation()}</View>
+          </View>
         </ScrollView>
         <View style={styles.input}>
           <View style={styles.inputWrap}>
@@ -94,7 +95,6 @@ const styles = StyleSheet.create({
   feed: {
     display: 'flex',
     flexDirection: 'column-reverse',
-    height: '80%',
     backgroundColor: 'black',
   },
   feedWrap: {
