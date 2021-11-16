@@ -25,6 +25,22 @@ export default {
     `;
   },
 
+  addDescription: () => {
+    return gql`
+      mutation Mutation($desc: InputDesc!) {
+        addDescription(desc: $desc)
+      }
+    `;
+  },
+
+  addLocation: () => {
+    return gql`
+      mutation Mutation($location: InputLocation!) {
+        addLocation(location: $location)
+      }
+    `;
+  },
+
   getNextMatch: (id) => {
     return gql`
       query Query($UserId: Int!) {
